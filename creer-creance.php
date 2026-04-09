@@ -52,10 +52,10 @@ $authUser = current_user();
                 <div class="header-right">
                    <div class="dark-light-toggle"><span class="dark"><i class="ri-moon-line"></i></span><span class="light"><i class="ri-sun-line"></i></span></div>
                    <div class="dropdown profile_log dropdown">
-                      <div data-toggle="dropdown" aria-haspopup="true" class="" aria-expanded="false">
+                      <div class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                          <div class="user icon-menu active"><span><i class="ri-user-line"></i></span></div>
                       </div>
-                      <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu dropdown-menu-right">
+                      <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu dropdown-menu-end">
                          <div class="user-email">
                             <div class="user">
                                <span class="thumb"><img src="images/profile/3.png" alt=""></span>
