@@ -27,3 +27,22 @@ Une application PHP pour gérer les dettes, avec authentification utilisateur.
 - `index.php` : tableau de bord.
 - `solde.php` : historique des transactions et solde.
 - `creance.php` : créances et remboursements.
+
+
+## Déploiement sur Render (Docker)
+1. Poussez ce dépôt sur GitHub.
+2. Sur Render, créez un **Web Service** avec `Runtime = Docker`.
+3. Si vous utilisez Blueprint, Render détecte `render.yaml` automatiquement.
+4. Renseignez les variables d'environnement (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, etc.).
+5. L'application écoute automatiquement sur `PORT` (injecté par Render).
+6. Pour Aiven, configurez au minimum ces variables sur Render:
+   - `DB_HOST` = votre hôte `*.aivencloud.com`
+   - `DB_PORT` = port Aiven (souvent `17559`)
+   - `DB_NAME` = `defaultdb` (ou votre base)
+   - `DB_USER` / `DB_PASSWORD` = identifiants Aiven
+   - `DB_USE_SSL` = `true`
+   - `DB_SSL_CA` = `/var/www/html/database/ca.pem`
+
+### Dépannage
+- Erreur `Could not resolve host: github.com` pendant le clone Render : c'est un problème réseau/DNS côté environnement Render (pas lié au Dockerfile). Relancez le déploiement ou vérifiez la connectivité sortante du service.
+- Erreur `lstat /opt/render/project/src: no such file or directory` : vérifiez que le service est bien de type **Docker Web Service** et que la racine du repo est `.` (champ `rootDir`).
