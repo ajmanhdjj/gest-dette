@@ -67,9 +67,9 @@ $conn->close();
           <div class="col-xxl-12">
              <div class="header-content">
                 <div class="header-left">
-                   <div class="brand-logo"><a class="mini-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="40"></a></div>
+                   <div class="brand-logo"><a class="mini-logo" href="index.php"><img src="images/logoi.png" alt="" width="40"></a></div>
                    <div class="search">
-                        <form action="/recherche" method="POST">
+                        <form action="recherche.php" method="POST">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search_query" placeholder="Recherche">
                                 <select class="form-control" name="type_recherche">
@@ -98,8 +98,8 @@ $conn->close();
                                </div>
                             </div>
                          </div>
-                         <a class="dropdown-item" href="/profil"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="/deconnexion"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
+                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>
@@ -110,20 +110,20 @@ $conn->close();
  </div>
 
     <div class="sidebar">
-    <div class="brand-logo"><a class="full-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="30"></a></div>
+    <div class="brand-logo"><a class="full-logo" href="index.php"><img src="images/logoi.png" alt="" width="30"></a></div>
     <div class="menu">
         <ul>
-            <li><a href="/dashboard">
+            <li><a href="index.php">
                     <span><i class="ri-home-5-line"></i></span>
                     <span class="nav-text">Accueil</span>
                 </a>
             </li>
-            <li><a href="/solde">
+            <li><a href="solde.php">
                     <span><i class="ri-wallet-line"></i></span>
                     <span class="nav-text">Solde</span>
                 </a>
             </li>
-            <li><a href="/creances">
+            <li><a href="creance.php">
                     <span><i class="ri-secure-payment-line"></i></span>
                     <span class="nav-text">Créance</span>
                 </a>
@@ -142,8 +142,8 @@ $conn->close();
                         </div>
                     </div>
                     <div class="col-auto">
-                        <div class="breadcrumbs"><a href="/dashboard">Accueil </a><span><i
-                                    class="ri-arrow-right-s-line"></i></span><a href="/dashboard">Tableau de bord</a></div>
+                        <div class="breadcrumbs"><a href="index.php">Accueil </a><span><i
+                                    class="ri-arrow-right-s-line"></i></span><a href="index.php">Tableau de bord</a></div>
                     </div>
                 </div>
             </div>
@@ -207,7 +207,7 @@ $conn->close();
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Historique des transactions</h4>
-                            <a href="/solde">Voir plus</a>
+                            <a href="solde.php">Voir plus</a>
                         </div>
                         <div class="card-body">
                             <div class="invoice-content budget-content">
