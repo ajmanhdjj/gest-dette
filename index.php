@@ -243,11 +243,11 @@ $conn->close();
 
 
 
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
-<script src="vendor/chartjs/chartjs.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
 
 
@@ -263,12 +263,12 @@ $conn->close();
 
 
 
-<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.6/dist/perfect-scrollbar.min.js"></script>
 <script src="js/plugins/perfect-scrollbar-init.js"></script>
 
 
 
-<script src="vendor/circle-progress/circle-progress.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-circle-progress@1.2.2/dist/circle-progress.min.js"></script>
 <script src="js/plugins/circle-progress-init.js"></script>
 
 

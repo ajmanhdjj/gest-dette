@@ -44,14 +44,27 @@ if (!defined('DB_CONFIG_LOADED')) {
     load_env_file(__DIR__ . '/../.env');
 }
 
-$servername = getenv('DB_HOST') ?: 'localhost';
-$username = getenv('DB_USER') ?: 'root';
-$dbpassword = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : 'root';
+$servername = getenv('DB_HOST') ?: (getenv('AIVEN_HOST') ?: '127.0.0.1');
+$username = getenv('DB_USER') ?: (getenv('AIVEN_USER') ?: 'root');
+$dbpassword = getenv('DB_PASSWORD');
+if ($dbpassword === false) {
+    $dbpassword = getenv('AIVEN_PASSWORD');
+}
+if ($dbpassword === false) {
+    $dbpassword = 'root';
+}
 $password = $dbpassword;
-$dbname = getenv('DB_NAME') ?: 'db_gest_dette';
-$port = (int) (getenv('DB_PORT') ?: 3306);
+$dbname = getenv('DB_NAME') ?: (getenv('AIVEN_DATABASE') ?: 'db_gest_dette');
+$port = (int) (getenv('DB_PORT') ?: (getenv('AIVEN_PORT') ?: 3306));
 $db_charset = getenv('DB_CHARSET') ?: 'utf8mb4';
-$db_use_ssl = filter_var(getenv('DB_USE_SSL') ?: 'false', FILTER_VALIDATE_BOOLEAN);
+
+$db_use_ssl_env = getenv('DB_USE_SSL');
+if ($db_use_ssl_env === false) {
+    $db_use_ssl = str_contains($servername, 'aivencloud.com');
+} else {
+    $db_use_ssl = filter_var($db_use_ssl_env, FILTER_VALIDATE_BOOLEAN);
+}
+
 $db_ssl_ca = getenv('DB_SSL_CA') ?: (__DIR__ . '/../database/ca.pem');
 
 if (!function_exists('db_connect_mysqli')) {
