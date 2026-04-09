@@ -8987,6 +8987,8 @@ h1, .h1,
     padding: 0px;
     margin: 0px;
     top: 25px !important;
+    right: 0 !important;
+    left: auto !important;
     -webkit-box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.15);
             box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.15);
     border-radius: 5px;

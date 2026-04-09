@@ -85,7 +85,7 @@ $conn->close();
                 <div class="header-right">
                    <div class="dark-light-toggle"><span class="dark"><i class="ri-moon-line"></i></span><span class="light"><i class="ri-sun-line"></i></span></div>
                    <div class="dropdown profile_log dropdown">
-                      <div data-bs-toggle="dropdown" aria-haspopup="true" class="" aria-expanded="false">
+                      <div class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                          <div class="user icon-menu active"><span><i class="ri-user-line"></i></span></div>
                       </div>
                       <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu dropdown-menu-end">
