@@ -5,15 +5,12 @@ $authUser = current_user();
 $userId = (int) $authUser['id'];
 require 'app/database.php';
 
-$pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $dbpassword ?? $password);
+$pdo = db_connect_pdo();
 $stmt = $pdo->prepare("SELECT * FROM Transaction WHERE user_id = :user_id ORDER BY id DESC");
 $stmt->execute(['user_id' => $userId]);
 $tr = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-if ($conn->connect_error) {
-    die("La connexion à la base de données a échoué : " . $conn->connect_error);
-}
+$conn = db_connect_mysqli();
 
 $stmtSolde = $conn->prepare("SELECT solde FROM Solde WHERE user_id = ? LIMIT 1");
 $stmtSolde->bind_param('i', $userId);

@@ -10,10 +10,7 @@ if (isset($_POST['creer_creance'])) {
     $montant_creance = floatval($_POST['montant_creance'] ?? 0);
 
     require 'database.php';
-    $conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-    if ($conn->connect_error) {
-        die("La connexion à la base de données a échoué : " . $conn->connect_error);
-    }
+    $conn = db_connect_mysqli();
 
     $stmtSolde = $conn->prepare("SELECT solde FROM Solde WHERE user_id = ? LIMIT 1");
     $stmtSolde->bind_param('i', $userId);

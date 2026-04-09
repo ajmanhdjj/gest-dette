@@ -9,8 +9,9 @@ Une application PHP pour gérer les dettes, avec authentification utilisateur.
 ## Installation
 1. Clonez le dépôt.
 2. Importez `database/schema.sql` dans MySQL.
-3. Copiez `app/database.example.php` vers `app/database.php` et configurez vos accès.
-4. Lancez votre serveur local, puis ouvrez `http://localhost:8888/gest-dette/signin.php`.
+3. Copiez `.env.example` vers `.env` puis configurez vos accès MySQL.
+4. Pour Aiven, mettez `DB_USE_SSL=true` et gardez `DB_SSL_CA=./database/ca.pem` (ou le chemin de votre certificat).
+5. Lancez votre serveur local, puis ouvrez `http://localhost:8888/gest-dette/signin.php`.
 
 ## Fonctionnalités
 - Inscription : nom complet, email, mot de passe, répétition mot de passe.

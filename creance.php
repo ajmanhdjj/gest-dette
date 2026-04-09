@@ -5,15 +5,12 @@ $authUser = current_user();
 $userId = (int) $authUser['id'];
 require 'app/database.php';
 
-$pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $dbpassword ?? $password);
+$pdo = db_connect_pdo();
 $stmt = $pdo->prepare("SELECT * FROM Creance WHERE user_id = :user_id ORDER BY statut, id DESC");
 $stmt->execute(['user_id' => $userId]);
 $cr = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-if ($conn->connect_error) {
-    die("La connexion à la base de données a échoué : " . $conn->connect_error);
-}
+$conn = db_connect_mysqli();
 
 $stmtCreanceTotal = $conn->prepare("SELECT COALESCE(SUM(montant_creance), 0) AS montant_total_creances_en_cours FROM Creance WHERE statut = 'en cours' AND user_id = ?");
 $stmtCreanceTotal->bind_param('i', $userId);
