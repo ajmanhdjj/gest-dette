@@ -3,7 +3,7 @@ require 'auth.php';
 require 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /inscription');
+    header('Location: ../signup.php');
     exit();
 }
 
@@ -13,12 +13,12 @@ $userPassword = $_POST['password'] ?? '';
 $passwordConfirm = $_POST['password_confirm'] ?? '';
 
 if ($nom === '' || $email === '' || $userPassword === '') {
-    header('Location: /inscription?error=missing_fields');
+    header('Location: ../signup.php?error=missing_fields');
     exit();
 }
 
 if ($userPassword !== $passwordConfirm) {
-    header('Location: /inscription?error=password_mismatch');
+    header('Location: ../signup.php?error=password_mismatch');
     exit();
 }
 
@@ -28,7 +28,7 @@ $check = $conn->prepare('SELECT id FROM Utilisateur WHERE email = ? LIMIT 1');
 $check->bind_param('s', $email);
 $check->execute();
 if ($check->get_result()->num_rows > 0) {
-    header('Location: /inscription?error=email_exists');
+    header('Location: ../signup.php?error=email_exists');
     exit();
 }
 
@@ -51,5 +51,5 @@ $_SESSION['user'] = [
     'email' => $email,
 ];
 
-header('Location: /dashboard');
+header('Location: ../index.php');
 exit();
