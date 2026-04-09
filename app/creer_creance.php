@@ -42,7 +42,7 @@ if (isset($_POST['creer_creance'])) {
         $insertTrans->bind_param('isddds', $userId, $nom_prenom, $montant_creance, $ancien_solde, $nouveau_solde, $type_transaction);
 
         if ($insertTrans->execute()) {
-            header('Location: ../creance.php');
+            header('Location: /creances');
             exit();
         }
         echo "Erreur lors de l'enregistrement de la transaction : " . $conn->error;

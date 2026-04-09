@@ -13,7 +13,7 @@ function current_user(): ?array {
 
 function redirect_to_signin(): void {
     $script = $_SERVER['SCRIPT_NAME'] ?? '';
-    $path = str_contains($script, '/app/') ? '../signin.php' : 'signin.php';
+    $path = '/connexion';
     header('Location: ' . $path);
     exit();
 }

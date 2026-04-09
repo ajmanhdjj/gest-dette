@@ -3,7 +3,7 @@ require 'auth.php';
 require 'database.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../signin.php');
+    header('Location: /connexion');
     exit();
 }
 
@@ -19,7 +19,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if (!$user || !password_verify($userPassword, $user['mot_de_passe'])) {
-    header('Location: ../signin.php?error=invalid_credentials');
+    header('Location: /connexion?error=invalid_credentials');
     exit();
 }
 
@@ -29,5 +29,5 @@ $_SESSION['user'] = [
     'email' => $user['email'],
 ];
 
-header('Location: ../index.php');
+header('Location: /dashboard');
 exit();

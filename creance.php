@@ -56,9 +56,9 @@ $conn->close();
           <div class="col-xxl-12">
              <div class="header-content">
                 <div class="header-left">
-                   <div class="brand-logo"><a class="mini-logo" href="index.php"><img src="images/logoi.png" alt="" width="40"></a></div>
+                   <div class="brand-logo"><a class="mini-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="40"></a></div>
                    <div class="search">
-                        <form action="recherche.php" method="POST">
+                        <form action="/recherche" method="POST">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search_query" placeholder="Recherche">
                                 <select class="form-control" name="type_recherche">
@@ -86,8 +86,8 @@ $conn->close();
                                </div>
                             </div>
                          </div>
-                         <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item" href="/profil"><span><i class="ri-user-line"></i></span>Profile</a>
+                         <a class="dropdown-item logout" href="/deconnexion"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>
@@ -98,20 +98,20 @@ $conn->close();
  </div>
 
     <div class="sidebar">
-    <div class="brand-logo"><a class="full-logo" href="index.php"><img src="images/logoi.png" alt="" width="30"></a></div>
+    <div class="brand-logo"><a class="full-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="30"></a></div>
     <div class="menu">
         <ul>
-            <li><a href="index.php">
+            <li><a href="/dashboard">
                     <span><i class="ri-home-5-line"></i></span>
                     <span class="nav-text">Accueil</span>
                 </a>
             </li>
-            <li><a href="solde.php">
+            <li><a href="/solde">
                     <span><i class="ri-wallet-line"></i></span>
                     <span class="nav-text">Solde</span>
                 </a>
             </li>
-            <li><a href="creance.php">
+            <li><a href="/creances">
                     <span><i class="ri-secure-payment-line"></i></span>
                     <span class="nav-text">Créance</span>
                 </a>
@@ -131,8 +131,8 @@ $conn->close();
                         </div>
                     </div>
                     <div class="col-auto">
-                        <div class="breadcrumbs"><a href="index.php">Accueil </a><span><i
-                                    class="ri-arrow-right-s-line"></i></span><a href="creance.php">Créances</a></div>
+                        <div class="breadcrumbs"><a href="/dashboard">Accueil </a><span><i
+                                    class="ri-arrow-right-s-line"></i></span><a href="/creances">Créances</a></div>
                     </div>
                 </div>
             </div>
@@ -164,7 +164,7 @@ $conn->close();
                     <div class="card">
                         <div class="card-header flex-row">
                             <h4 class="card-title">Créance </h4>
-                            <a class="btn btn-primary" href="creer-creance.php"><span><i class="bi bi-plus"></i></span></a>
+                            <a class="btn btn-primary" href="/creances/nouvelle"><span><i class="bi bi-plus"></i></span></a>
                         </div>
                         <div class="card-body">
                             <div class="invoice-table">
@@ -194,7 +194,7 @@ $conn->close();
                                                     <td><span class="badge px-3 py-2 <?php echo ($creance['statut'] === 'en cours' ? 'bg-warning' : 'bg-success'); ?>"><?php echo $creance['statut'] ?></span></td>
                                                     <td>
                                                         <?php if ($creance['statut'] === 'en cours'): ?>
-                                                            <a class="btn btn-outline-primary" href="rembourser_creance.php?id=<?php echo $creance['id'] ?>"><span>REMBOURSER</span></a>
+                                                            <a class="btn btn-outline-primary" href="/creances/rembourser?id=<?php echo $creance['id'] ?>"><span>REMBOURSER</span></a>
                                                         <?php endif; ?>
                                                     </td>
                                                 </tr>

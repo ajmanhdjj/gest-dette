@@ -57,9 +57,9 @@ if (isset($_POST['search_query'])) {
           <div class="col-xxl-12">
              <div class="header-content">
                 <div class="header-left">
-                   <div class="brand-logo"><a class="mini-logo" href="index.php"><img src="images/logoi.png" alt="" width="40"></a></div>
+                   <div class="brand-logo"><a class="mini-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="40"></a></div>
                    <div class="search">
-                        <form action="recherche.php" method="POST">
+                        <form action="/recherche" method="POST">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search_query" placeholder="Recherche" value="<?php echo $_POST['search_query'] ?>">
                                 <select class="form-control" name="type_recherche">
@@ -87,8 +87,8 @@ if (isset($_POST['search_query'])) {
                                </div>
                             </div>
                          </div>
-                         <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item" href="/profil"><span><i class="ri-user-line"></i></span>Profile</a>
+                         <a class="dropdown-item logout" href="/deconnexion"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>
@@ -99,20 +99,20 @@ if (isset($_POST['search_query'])) {
  </div>
 
     <div class="sidebar">
-    <div class="brand-logo"><a class="full-logo" href="index.php"><img src="images/logoi.png" alt="" width="30"></a></div>
+    <div class="brand-logo"><a class="full-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="30"></a></div>
     <div class="menu">
         <ul>
-            <li><a href="index.php">
+            <li><a href="/dashboard">
                     <span><i class="ri-home-5-line"></i></span>
                     <span class="nav-text">Accueil</span>
                 </a>
             </li>
-            <li><a href="solde.php">
+            <li><a href="/solde">
                     <span><i class="ri-wallet-line"></i></span>
                     <span class="nav-text">Solde</span>
                 </a>
             </li>
-            <li><a href="creance.php">
+            <li><a href="/creances">
                     <span><i class="ri-secure-payment-line"></i></span>
                     <span class="nav-text">Créance</span>
                 </a>
@@ -131,8 +131,8 @@ if (isset($_POST['search_query'])) {
                         </div>
                     </div>
                     <div class="col-auto">
-                        <div class="breadcrumbs"><a href="index.php">Accueil </a><span><i
-                                    class="ri-arrow-right-s-line"></i></span><a href="recherche.php">Recherche</a></div>
+                        <div class="breadcrumbs"><a href="/dashboard">Accueil </a><span><i
+                                    class="ri-arrow-right-s-line"></i></span><a href="/recherche">Recherche</a></div>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@ if (isset($_POST['search_query'])) {
                             echo '<div class="card">';
                             echo '<div class="card-header flex-row">';
                             echo '<h4 class="card-title">Recherche créance : ' . $_POST['search_query'] . '</h4>';
-                            echo '<a class="btn btn-primary" href="creer-creance.php"><span><i class="bi bi-plus"></i></span></a>';
+                            echo '<a class="btn btn-primary" href="/creances/nouvelle"><span><i class="bi bi-plus"></i></span></a>';
                             echo '</div>';
                             echo '<div class="card-body">';
                             echo '<div class="invoice-table">';
@@ -188,7 +188,7 @@ if (isset($_POST['search_query'])) {
                             echo '<td>';
 
                             if ($statut === 'en cours') {
-                                echo '<a class="btn btn-outline-primary" href="rembourser_creance.php?id=' . $creance_id . '"><span>REMBOURSER</span></a>';
+                                echo '<a class="btn btn-outline-primary" href="/creances/rembourser?id=' . $creance_id . '"><span>REMBOURSER</span></a>';
                             }
 
                             echo '</td>';
