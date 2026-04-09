@@ -1,3 +1,8 @@
+<?php
+require 'app/auth.php';
+require_auth();
+$authUser = current_user();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -55,13 +60,13 @@
                             <div class="user">
                                <span class="thumb"><img src="images/profile/3.png" alt=""></span>
                                <div class="user-info">
-                                  <h5>Ajman hdj</h5>
-                                  <span>a.hadjiboudine2016@gmail.com</span>
+                                  <h5><?php echo htmlspecialchars($authUser['nom_complet']); ?></h5>
+                                  <span><?php echo htmlspecialchars($authUser['email']); ?></span>
                                </div>
                             </div>
                          </div>
                          <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="signin.php"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>

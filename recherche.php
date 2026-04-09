@@ -1,32 +1,31 @@
 <?php
-// Connectez-vous à la base de données (remplacez les valeurs avec vos informations de connexion)
+require 'app/auth.php';
+require_auth();
+$authUser = current_user();
+$userId = (int) $authUser['id'];
 require 'app/database.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Vérifier la connexion à la base de données
+$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
 if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
 if (isset($_POST['search_query'])) {
-    $search_query = $_POST['search_query'];
+    $search_query = trim($_POST['search_query']);
+    $like = "%{$search_query}%";
 
-    if ($_POST['type_recherche'] === 'creance') {
-        // Requête SQL pour rechercher les créances en fonction de la valeur saisie
-        $sql_search_creances = "SELECT * FROM Creance WHERE nom_prenom LIKE '%$search_query%' ORDER BY id DESC";
-
-        // Exécuter la requête SQL
-        $result_creances = $conn->query($sql_search_creances);
-    } elseif ($_POST['type_recherche'] === 'transaction') {
-        // Requête SQL pour rechercher les transactions en fonction de la valeur saisie
-        $sql_search_transactions = "SELECT * FROM Transaction WHERE nom_prenom LIKE '%$search_query%' OR type LIKE '%$search_query%' ORDER BY id DESC";
-
-        // Exécuter la requête SQL
-        $result_transactions = $conn->query($sql_search_transactions);
+    if (($_POST['type_recherche'] ?? '') === 'creance') {
+        $stmt = $conn->prepare("SELECT * FROM Creance WHERE user_id = ? AND nom_prenom LIKE ? ORDER BY id DESC");
+        $stmt->bind_param('is', $userId, $like);
+        $stmt->execute();
+        $result_creances = $stmt->get_result();
+    } elseif (($_POST['type_recherche'] ?? '') === 'transaction') {
+        $stmt = $conn->prepare("SELECT * FROM Transaction WHERE user_id = ? AND (nom_prenom LIKE ? OR type LIKE ?) ORDER BY id DESC");
+        $stmt->bind_param('iss', $userId, $like, $like);
+        $stmt->execute();
+        $result_transactions = $stmt->get_result();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -86,13 +85,13 @@ if (isset($_POST['search_query'])) {
                             <div class="user">
                                <span class="thumb"><img src="images/profile/3.png" alt=""></span>
                                <div class="user-info">
-                                  <h5>Ajman hdj</h5>
-                                  <span>a.hadjiboudine2016@gmail.com</span>
+                                  <h5><?php echo htmlspecialchars($authUser['nom_complet']); ?></h5>
+                                  <span><?php echo htmlspecialchars($authUser['email']); ?></span>
                                </div>
                             </div>
                          </div>
                          <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="signin.php"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>
