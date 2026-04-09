@@ -1,44 +1,29 @@
 <?php
-// Connectez-vous à la base de données (remplacez les valeurs avec vos informations de connexion)
+require 'app/auth.php';
+require_auth();
+$authUser = current_user();
+$userId = (int) $authUser['id'];
 require 'app/database.php';
 
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-$stmt = $conn->prepare("SELECT * FROM Creance ORDER BY statut, id DESC");
-$stmt->execute();
-$cr = $stmt->fetchAll();
+$pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $dbpassword ?? $password);
+$stmt = $pdo->prepare("SELECT * FROM Creance WHERE user_id = :user_id ORDER BY statut, id DESC");
+$stmt->execute(['user_id' => $userId]);
+$cr = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Vérifier la connexion à la base de données
+$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
 if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
+$stmtCreanceTotal = $conn->prepare("SELECT COALESCE(SUM(montant_creance), 0) AS montant_total_creances_en_cours FROM Creance WHERE statut = 'en cours' AND user_id = ?");
+$stmtCreanceTotal->bind_param('i', $userId);
+$stmtCreanceTotal->execute();
+$montant_total_creances_en_cours = $stmtCreanceTotal->get_result()->fetch_assoc()['montant_total_creances_en_cours'] ?? 0;
 
-// Récupérer le montant total des créances en cours depuis la table "Creance"
-$sql_select_montant_creances_en_cours = "SELECT SUM(montant_creance) AS montant_total_creances_en_cours FROM Creance WHERE statut = 'en cours'";
-$result_montant_creances_en_cours = $conn->query($sql_select_montant_creances_en_cours);
-
-if ($result_montant_creances_en_cours->num_rows > 0) {
-    $row_montant_creances_en_cours = $result_montant_creances_en_cours->fetch_assoc();
-    $montant_total_creances_en_cours = $row_montant_creances_en_cours['montant_total_creances_en_cours'];
-} else {
-    $montant_total_creances_en_cours = 0;
-}
-
-
-// Récupérer le nombre de créances en cours depuis la table "Creance"
-$sql_select_creances_en_cours = "SELECT COUNT(*) AS nb_creances_en_cours FROM Creance WHERE statut = 'en cours'";
-$result_creances_en_cours = $conn->query($sql_select_creances_en_cours);
-
-if ($result_creances_en_cours->num_rows > 0) {
-    $row_creances_en_cours = $result_creances_en_cours->fetch_assoc();
-    $nb_creances_en_cours = $row_creances_en_cours['nb_creances_en_cours'];
-} else {
-    $nb_creances_en_cours = 0;
-}
-
-// Fermer la connexion à la base de données
+$stmtCreanceCount = $conn->prepare("SELECT COUNT(*) AS nb_creances_en_cours FROM Creance WHERE statut = 'en cours' AND user_id = ?");
+$stmtCreanceCount->bind_param('i', $userId);
+$stmtCreanceCount->execute();
+$nb_creances_en_cours = $stmtCreanceCount->get_result()->fetch_assoc()['nb_creances_en_cours'] ?? 0;
 $conn->close();
 ?>
 
@@ -99,13 +84,13 @@ $conn->close();
                             <div class="user">
                                <span class="thumb"><img src="images/profile/3.png" alt=""></span>
                                <div class="user-info">
-                                  <h5>Ajman hdj</h5>
-                                  <span>a.hadjiboudine2016@gmail.com</span>
+                                  <h5><?php echo htmlspecialchars($authUser['nom_complet']); ?></h5>
+                                  <span><?php echo htmlspecialchars($authUser['email']); ?></span>
                                </div>
                             </div>
                          </div>
                          <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="signin.php"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>
