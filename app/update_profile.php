@@ -12,10 +12,7 @@ if ($nom === '' || $email === '') {
     exit();
 }
 
-$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-if ($conn->connect_error) {
-    die('Connexion échouée : ' . $conn->connect_error);
-}
+$conn = db_connect_mysqli();
 
 $stmt = $conn->prepare('UPDATE Utilisateur SET nom_complet = ?, email = ? WHERE id = ?');
 $stmt->bind_param('ssi', $nom, $email, $userId);

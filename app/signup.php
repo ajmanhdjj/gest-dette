@@ -22,10 +22,7 @@ if ($userPassword !== $passwordConfirm) {
     exit();
 }
 
-$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-if ($conn->connect_error) {
-    die("Connexion échouée : " . $conn->connect_error);
-}
+$conn = db_connect_mysqli();
 
 $check = $conn->prepare('SELECT id FROM Utilisateur WHERE email = ? LIMIT 1');
 $check->bind_param('s', $email);

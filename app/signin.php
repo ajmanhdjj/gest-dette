@@ -10,10 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = trim($_POST['email'] ?? '');
 $userPassword = $_POST['password'] ?? '';
 
-$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-if ($conn->connect_error) {
-    die("Connexion échouée : " . $conn->connect_error);
-}
+$conn = db_connect_mysqli();
 
 $stmt = $conn->prepare('SELECT id, nom_complet, email, mot_de_passe FROM Utilisateur WHERE email = ? LIMIT 1');
 $stmt->bind_param('s', $email);

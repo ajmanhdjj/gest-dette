@@ -5,10 +5,7 @@ $authUser = current_user();
 $userId = (int) $authUser['id'];
 require 'app/database.php';
 
-$conn = new mysqli($servername, $username, $dbpassword ?? $password, $dbname);
-if ($conn->connect_error) {
-    die("La connexion à la base de données a échoué : " . $conn->connect_error);
-}
+$conn = db_connect_mysqli();
 
 if (isset($_POST['search_query'])) {
     $search_query = trim($_POST['search_query']);

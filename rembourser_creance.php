@@ -5,7 +5,7 @@ $authUser = current_user();
 $userId = (int) $authUser['id'];
 require 'app/database.php';
 
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $dbpassword ?? $password);
+$conn = db_connect_pdo();
 $stmt = $conn->prepare("SELECT * FROM Creance WHERE id = :id AND user_id = :user_id");
 $stmt->bindValue(':id', (int)($_GET['id'] ?? 0), PDO::PARAM_INT);
 $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
