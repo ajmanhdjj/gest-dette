@@ -44,7 +44,7 @@ if (!defined('DB_CONFIG_LOADED')) {
     load_env_file(__DIR__ . '/../.env');
 }
 
-$servername = getenv('DB_HOST') ?: (getenv('AIVEN_HOST') ?: '127.0.0.1');
+$servername = getenv('DB_HOST') ?: (getenv('AIVEN_HOST') ?: 'localhost');
 $username = getenv('DB_USER') ?: (getenv('AIVEN_USER') ?: 'root');
 $dbpassword = getenv('DB_PASSWORD');
 if ($dbpassword === false) {
@@ -77,8 +77,8 @@ if (!function_exists('db_connection_attempts')) {
 
         // Fallback utile pour MAMP local si DB_HOST/DB_PORT ne sont pas explicitement définis.
         $isDefaultLocal = getenv('DB_HOST') === false && getenv('AIVEN_HOST') === false && getenv('DB_PORT') === false && getenv('AIVEN_PORT') === false;
-        if ($isDefaultLocal && !$useSsl && ($host === '127.0.0.1' || $host === 'localhost')) {
-            $attempts[] = ['host' => '127.0.0.1', 'port' => 8889];
+        if ($isDefaultLocal && !$useSsl && ($host === 'localhost' || $host === 'localhost')) {
+            $attempts[] = ['host' => 'localhost', 'port' => 8889];
             $attempts[] = ['host' => 'localhost', 'port' => 8889];
             $attempts[] = ['host' => 'localhost', 'port' => 3306];
         }
