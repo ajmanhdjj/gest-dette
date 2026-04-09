@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: gest-dette
+    runtime: docker
+    plan: free
+    region: oregon
+    rootDir: .
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /signin.php
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_USE_SSL
+        value: "true"
+      - key: DB_SSL_CA
+        value: /var/www/html/database/ca.pem
