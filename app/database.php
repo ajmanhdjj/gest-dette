@@ -67,30 +67,55 @@ if ($db_use_ssl_env === false) {
 
 $db_ssl_ca = getenv('DB_SSL_CA') ?: (__DIR__ . '/../database/ca.pem');
 
+if (!function_exists('db_connection_attempts')) {
+    /**
+     * @return array<int, array{host: string, port: int}>
+     */
+    function db_connection_attempts(string $host, int $port, bool $useSsl): array
+    {
+        $attempts = [['host' => $host, 'port' => $port]];
+
+        // Fallback utile pour MAMP local si DB_HOST/DB_PORT ne sont pas explicitement définis.
+        $isDefaultLocal = getenv('DB_HOST') === false && getenv('AIVEN_HOST') === false && getenv('DB_PORT') === false && getenv('AIVEN_PORT') === false;
+        if ($isDefaultLocal && !$useSsl && ($host === '127.0.0.1' || $host === 'localhost')) {
+            $attempts[] = ['host' => '127.0.0.1', 'port' => 8889];
+            $attempts[] = ['host' => 'localhost', 'port' => 8889];
+            $attempts[] = ['host' => 'localhost', 'port' => 3306];
+        }
+
+        return $attempts;
+    }
+}
+
 if (!function_exists('db_connect_mysqli')) {
     function db_connect_mysqli(): mysqli
     {
         global $servername, $username, $dbpassword, $dbname, $port, $db_charset, $db_use_ssl, $db_ssl_ca;
 
-        $conn = mysqli_init();
-        if ($conn === false) {
-            throw new RuntimeException('Impossible d\'initialiser la connexion MySQLi.');
+        $lastError = '';
+        foreach (db_connection_attempts($servername, $port, $db_use_ssl) as $target) {
+            $conn = mysqli_init();
+            if ($conn === false) {
+                throw new RuntimeException('Impossible d\'initialiser la connexion MySQLi.');
+            }
+
+            $flags = 0;
+            if ($db_use_ssl) {
+                mysqli_ssl_set($conn, null, null, $db_ssl_ca, null, null);
+                $flags = MYSQLI_CLIENT_SSL;
+            }
+
+            $connected = @mysqli_real_connect($conn, $target['host'], $username, $dbpassword, $dbname, $target['port'], null, $flags);
+            if ($connected) {
+                mysqli_set_charset($conn, $db_charset);
+                return $conn;
+            }
+
+            $lastError = mysqli_connect_error();
+            mysqli_close($conn);
         }
 
-        $flags = 0;
-        if ($db_use_ssl) {
-            mysqli_ssl_set($conn, null, null, $db_ssl_ca, null, null);
-            $flags = MYSQLI_CLIENT_SSL;
-        }
-
-        $connected = mysqli_real_connect($conn, $servername, $username, $dbpassword, $dbname, $port, null, $flags);
-        if (!$connected) {
-            throw new RuntimeException('Connexion échouée : ' . mysqli_connect_error());
-        }
-
-        mysqli_set_charset($conn, $db_charset);
-
-        return $conn;
+        throw new RuntimeException('Connexion échouée : ' . $lastError);
     }
 }
 
@@ -99,16 +124,25 @@ if (!function_exists('db_connect_pdo')) {
     {
         global $servername, $username, $dbpassword, $dbname, $port, $db_charset, $db_use_ssl, $db_ssl_ca;
 
-        $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', $servername, $port, $dbname, $db_charset);
-        $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ];
+        $lastException = null;
+        foreach (db_connection_attempts($servername, $port, $db_use_ssl) as $target) {
+            $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', $target['host'], $target['port'], $dbname, $db_charset);
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ];
 
-        if ($db_use_ssl) {
-            $options[PDO::MYSQL_ATTR_SSL_CA] = $db_ssl_ca;
+            if ($db_use_ssl) {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = $db_ssl_ca;
+            }
+
+            try {
+                return new PDO($dsn, $username, $dbpassword, $options);
+            } catch (PDOException $e) {
+                $lastException = $e;
+            }
         }
 
-        return new PDO($dsn, $username, $dbpassword, $options);
+        throw $lastException ?? new PDOException('Connexion PDO échouée.');
     }
 }

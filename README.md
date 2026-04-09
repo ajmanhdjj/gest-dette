@@ -46,3 +46,4 @@ Une application PHP pour gérer les dettes, avec authentification utilisateur.
 ### Dépannage
 - Erreur `Could not resolve host: github.com` pendant le clone Render : c'est un problème réseau/DNS côté environnement Render (pas lié au Dockerfile). Relancez le déploiement ou vérifiez la connectivité sortante du service.
 - Erreur `lstat /opt/render/project/src: no such file or directory` : vérifiez que le service est bien de type **Docker Web Service** et que la racine du repo est `.` (champ `rootDir`).
+- Erreur locale `SQLSTATE[HY000] [2002] Connection refused` sous MAMP : utilisez `DB_PORT=8889` (et `DB_HOST=127.0.0.1` ou `localhost`) dans votre `.env`.
