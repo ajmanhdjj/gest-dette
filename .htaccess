@@ -1,0 +1,33 @@
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Servir directement les fichiers/dossiers existants
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Routes publiques (GET)
+    RewriteRule ^$ signin.php [L,QSA]
+    RewriteRule ^connexion/?$ signin.php [L,QSA]
+    RewriteRule ^inscription/?$ signup.php [L,QSA]
+    RewriteRule ^dashboard/?$ index.php [L,QSA]
+    RewriteRule ^solde/?$ solde.php [L,QSA]
+    RewriteRule ^solde/ajouter/?$ ajouter_solde.php [L,QSA]
+    RewriteRule ^creances/?$ creance.php [L,QSA]
+    RewriteRule ^creances/nouvelle/?$ creer-creance.php [L,QSA]
+    RewriteRule ^creances/rembourser/?$ rembourser_creance.php [L,QSA]
+    RewriteRule ^profil/?$ profile.php [L,QSA]
+    RewriteRule ^recherche/?$ recherche.php [L,QSA]
+
+    # Routes d'actions (POST/GET)
+    RewriteRule ^auth/connexion/?$ app/signin.php [L,QSA]
+    RewriteRule ^auth/inscription/?$ app/signup.php [L,QSA]
+    RewriteRule ^deconnexion/?$ app/logout.php [L,QSA]
+    RewriteRule ^profil/update/?$ app/update_profile.php [L,QSA]
+    RewriteRule ^creances/create/?$ app/creer_creance.php [L,QSA]
+    RewriteRule ^creances/rembourser/action/?$ app/rembourser_creance.php [L,QSA]
+    RewriteRule ^solde/ajouter/action/?$ app/ajouter_solde.php [L,QSA]
+</IfModule>

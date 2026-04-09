@@ -13,7 +13,7 @@ $stmt->execute();
 $creance = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$creance) {
-    header('Location: creance.php');
+    header('Location: /creances');
     exit();
 }
 ?>
@@ -51,9 +51,9 @@ if (!$creance) {
           <div class="col-xxl-12">
              <div class="header-content">
                 <div class="header-left">
-                   <div class="brand-logo"><a class="mini-logo" href="index.php"><img src="images/logoi.png" alt="" width="40"></a></div>
+                   <div class="brand-logo"><a class="mini-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="40"></a></div>
                    <div class="search">
-                        <form action="recherche.php" method="POST">
+                        <form action="/recherche" method="POST">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search_query" placeholder="Recherche">
                                 <select class="form-control" name="type_recherche">
@@ -81,8 +81,8 @@ if (!$creance) {
                                </div>
                             </div>
                          </div>
-                         <a class="dropdown-item" href="profile.php"><span><i class="ri-user-line"></i></span>Profile</a>
-                         <a class="dropdown-item logout" href="app/logout.php"><i class="ri-logout-circle-line"></i>Logout</a>
+                         <a class="dropdown-item" href="/profil"><span><i class="ri-user-line"></i></span>Profile</a>
+                         <a class="dropdown-item logout" href="/deconnexion"><i class="ri-logout-circle-line"></i>Logout</a>
                       </div>
                    </div>
                 </div>
@@ -93,20 +93,20 @@ if (!$creance) {
  </div>
 
     <div class="sidebar">
-    <div class="brand-logo"><a class="full-logo" href="index.php"><img src="images/logoi.png" alt="" width="30"></a></div>
+    <div class="brand-logo"><a class="full-logo" href="/dashboard"><img src="images/logoi.png" alt="" width="30"></a></div>
     <div class="menu">
         <ul>
-            <li><a href="index.php">
+            <li><a href="/dashboard">
                     <span><i class="ri-home-5-line"></i></span>
                     <span class="nav-text">Accueil</span>
                 </a>
             </li>
-            <li><a href="solde.php">
+            <li><a href="/solde">
                     <span><i class="ri-wallet-line"></i></span>
                     <span class="nav-text">Solde</span>
                 </a>
             </li>
-            <li><a href="creance.php">
+            <li><a href="/creances">
                     <span><i class="ri-secure-payment-line"></i></span>
                     <span class="nav-text">Créance</span>
                 </a>
@@ -125,8 +125,8 @@ if (!$creance) {
                         </div>
                     </div>
                     <div class="col-auto">
-                        <div class="breadcrumbs"><a href="index.php">Accueil </a><span><i
-                                    class="ri-arrow-right-s-line"></i></span><a href="creer-creance.php">Créer créance</a></div>
+                        <div class="breadcrumbs"><a href="/dashboard">Accueil </a><span><i
+                                    class="ri-arrow-right-s-line"></i></span><a href="/creances/nouvelle">Créer créance</a></div>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@ if (!$creance) {
                             <h4 class="card-title">Créer créance </h4>
                         </div>
                         <div class="card-body">
-                            <form class="invoice-form" action="app/rembourser_creance.php" method="POST" enctype="multipart/form-data">
+                            <form class="invoice-form" action="/creances/rembourser/action" method="POST" enctype="multipart/form-data">
                                     <div class="row justify-content-between">
                                         <div class="col-xl-3">
                                             <div class="mb-3"><label class="form-label">Nom & prénom</label>

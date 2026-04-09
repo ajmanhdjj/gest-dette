@@ -5,7 +5,7 @@ $authUser = current_user();
 $userId = (int) $authUser['id'];
 
 if (!isset($_POST['remb_creance'])) {
-    header('Location: ../creance.php');
+    header('Location: /creances');
     exit();
 }
 
@@ -58,7 +58,7 @@ $type_transaction = "Créance remboursée";
 $sql_insert_transaction = $conn->prepare("INSERT INTO Transaction (user_id, nom_prenom, montant_trans, ancien_solde, nouveau_solde, type) VALUES (?, ?, ?, ?, ?, ?)");
 $sql_insert_transaction->bind_param('isddds', $userId, $nom_prenom_creancier, $montant_rembourse, $ancien_solde_banque, $nouveau_solde_banque, $type_transaction);
 if ($sql_insert_transaction->execute()) {
-    header('Location: ../creance.php');
+    header('Location: /creances');
     exit();
 }
 

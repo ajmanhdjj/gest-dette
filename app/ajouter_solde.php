@@ -35,7 +35,7 @@ if (isset($_POST['ajouter_solde'])) {
     $sql_insert_transaction = $conn->prepare("INSERT INTO Transaction (user_id, nom_prenom, montant_trans, ancien_solde, nouveau_solde, type) VALUES (?, 'MOI', ?, ?, ?, ?)");
     $sql_insert_transaction->bind_param('iddds', $userId, $montant_ajoute, $ancien_solde_banque, $nouveau_solde_banque, $type_transaction);
     if ($sql_insert_transaction->execute()) {
-        header('Location: ../solde.php');
+        header('Location: /solde');
         exit();
     }
 
